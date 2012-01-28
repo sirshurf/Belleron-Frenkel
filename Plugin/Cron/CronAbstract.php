@@ -114,14 +114,16 @@ abstract class Bf_Plugin_Cron_CronAbstract implements Bf_Plugin_Cron_CronInterfa
     protected function _getLockFile ()
     {
         $fileName = 'cron.' . get_class($this) . '.lock';
-        $lockFile = realpath(APPLICATION_PATH . '/../files/tmp/') . '/' . $fileName;
+        $strLogPath = Bf_Service_Cron::getLogDir();
+        $lockFile = $strLogPath . '/' . $fileName;
         return $lockFile;
     }
 
     protected function _getTouchFile ()
     {
         $fileName = 'cron.' . get_class($this) . '.touch';
-        $lockFile = realpath(APPLICATION_PATH . '/../files/tmp/') . '/' . $fileName;
+        $strLogPath = Bf_Service_Cron::getLogDir();
+        $lockFile = $strLogPath . '/' . $fileName;
         return $lockFile;
     }
 

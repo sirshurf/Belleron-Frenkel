@@ -105,7 +105,9 @@ class Bf_Service_Cron {
     // it over if necessary, but in general if there's any output it'll
     // be emailed to the cron runner user anyway.
     $output = file_get_contents($this->getLogFile());
-    rename($this->getLogFile(), realpath(APPLICATION_PATH . '/../log/') . '/cron.latest.log');
+    
+	$strLogPath = self::getLogDir();
+    rename($this->getLogFile(), $strLogPath . '/cron.latest.log');
     return $output;
 }
 	
@@ -126,9 +128,17 @@ class Bf_Service_Cron {
 	}
 	
 	public function getLogFile() {
-	    $strLogPath = realpath ( APPLICATION_PATH . '/../files/log' );
-	    @mkdir($strLogPath);
+	    $strLogPath = self::getLogDir();
 		return  $strLogPath . '/cron.' . getmypid () . '.log';
+	}
+	
+	public static function getLogDir(){	    
+	    $strLogPath = realpath ( APPLICATION_PATH . '/../' );	
+	    @mkdir($strLogPath."/files");
+	    $strLogPath = realpath ( APPLICATION_PATH . '/../files' );
+	    @mkdir($strLogPath."/log");
+	    $strLogPath = realpath ( APPLICATION_PATH . '/../files/log' );
+	    return $strLogPath;
 	}
 	
 	public function getLog() {
